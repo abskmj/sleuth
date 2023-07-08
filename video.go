@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
-	"strings"
 )
 
 var reSeasonEpisode = regexp.MustCompile(`(?i)s([0-9]{1,2})e([0-9]{1,2})`)
@@ -23,13 +23,10 @@ func has(text string, re regexp.Regexp) bool {
 	return find(text, re) != ""
 }
 
-func sanitize(name string) string {
-	var replacer = strings.NewReplacer(
-		".", " ",
-		"-", " ",
-	)
+var reSanitize = regexp.MustCompile(`(?i)[()\[\]~\.\-\+\s]+`)
 
-	return replacer.Replace(name)
+func sanitize(name string) string {
+	return reSanitize.ReplaceAllString(name, " ")
 }
 
 // Video Resolutions
@@ -87,11 +84,49 @@ func Season(name string) string {
 	return find(name, *reSeasonEpisode)
 }
 
+// audio channels
+var re51Channels = regexp.MustCompile(`(?i) (5 1|DDP5 1) `)
+var re20Channels = regexp.MustCompile(`(?i) (2 0) `)
+
+func getAudioChannels(name string) string {
+	var channels = ""
+
+	if has(name, *re51Channels) {
+		channels = "5.1"
+	} else if has(name, *re20Channels) {
+		channels = "2.0"
+	}
+
+	return channels
+}
+
+// audio codec
+
+var reAudioDDP = regexp.MustCompile(`(?i) (DDP|DDP5) `)
+var reAudioDD = regexp.MustCompile(`(?i) (DD) `)
+var reAudioAAC = regexp.MustCompile(`(?i) (AAC) `)
+
+func getAudioCodec(name string) string {
+	var codec = ""
+
+	if has(name, *reAudioDDP) {
+		codec = "DDP"
+	} else if has(name, *reAudioDD) {
+		codec = "DD"
+	} else if has(name, *reAudioAAC) {
+		codec = "AAC"
+	}
+
+	return codec
+}
+
 // Video
 
 type Video struct {
 	videoResolution string
 	videoCodec      string
+	audioChannels   string
+	audioCodec      string
 }
 
 func NewVideo(name string) Video {
@@ -99,8 +134,12 @@ func NewVideo(name string) Video {
 
 	var sanitized = sanitize(name)
 
+	fmt.Println(sanitized)
+
 	v.videoResolution = getVideoResolution(sanitized)
 	v.videoCodec = getVideoCodec(sanitized)
+	v.audioChannels = getAudioChannels(sanitized)
+	v.audioCodec = getAudioCodec(sanitized)
 
 	return v
 }
