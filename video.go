@@ -2,6 +2,7 @@ package main
 
 import (
 	"regexp"
+	"strings"
 )
 
 // utilities
@@ -71,6 +72,23 @@ func getVideoCodec(name string) string {
 	}
 
 	return codec
+}
+
+// video quality
+var reDV = regexp.MustCompile(`(?i) (DV) `)
+var reHDR = regexp.MustCompile(`(?i) (HDR) `)
+
+func getVideoQuality(name string) string {
+	var qualities []string
+
+	if has(name, *reDV) {
+		qualities = append(qualities, "DV")
+	}
+	if has(name, *reHDR) {
+		qualities = append(qualities, "HDR")
+	}
+
+	return strings.Join(qualities, ", ")
 }
 
 // audio channels
@@ -145,6 +163,7 @@ type Video struct {
 	episode         string
 	videoResolution string
 	videoCodec      string
+	videoQuality    string
 	audioChannels   string
 	audioCodec      string
 }
@@ -159,6 +178,7 @@ func NewVideo(name string) Video {
 		episode:         getEpisode(sanitized),
 		videoResolution: getVideoResolution(sanitized),
 		videoCodec:      getVideoCodec(sanitized),
+		videoQuality:    getVideoQuality(sanitized),
 		audioChannels:   getAudioChannels(sanitized),
 		audioCodec:      getAudioCodec(sanitized),
 	}

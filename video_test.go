@@ -125,6 +125,20 @@ var tests = []test{
 			audioCodec:      "DTS-HD",
 		},
 	},
+	{
+		"Unknown.The.Lost.Pyramid.2023.1080p.NF.WEB-DL.DUAL.DDP5.1.Atmos.HDR-DV.H.265-Telly.mkv",
+		Video{
+			title:           "Unknown The Lost Pyramid",
+			year:            "2023",
+			season:          "",
+			episode:         "",
+			videoResolution: "1080",
+			videoCodec:      "265",
+			videoQuality:    "DV, HDR",
+			audioChannels:   "5.1",
+			audioCodec:      "DDP",
+		},
+	},
 }
 
 func TestVideo(t *testing.T) {
