@@ -13,7 +13,7 @@ func main() {
 	video := NewVideo(*name)
 
 	fmt.Println("Video:", video)
-	fmt.Println("Resolution:", video.resolution)
+	fmt.Println("Resolution:", video.videoResolution)
 	// fmt.Println("isShow:", video.IsShow())
 	// fmt.Println("Season:", video.Season())
 	// fmt.Println("2160p:", video.Is2160p())

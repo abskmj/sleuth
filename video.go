@@ -6,13 +6,36 @@ import (
 )
 
 var reSeasonEpisode = regexp.MustCompile(`(?i)s([0-9]{1,2})e([0-9]{1,2})`)
+
+// utilities
+func find(text string, re regexp.Regexp) string {
+	var match = ""
+	var matches = re.FindStringSubmatch(text)
+
+	if len(matches) > 1 {
+		match = matches[0]
+	}
+
+	return match
+}
+
+func has(text string, re regexp.Regexp) bool {
+	return find(text, re) != ""
+}
+
+func sanitize(name string) string {
+	var replacer = strings.NewReplacer(
+		".", " ",
+		"-", " ",
+	)
+
+	return replacer.Replace(name)
+}
+
+// Video Resolutions
 var re2160p = regexp.MustCompile(`(?i) (2160p) `)
 var re1080p = regexp.MustCompile(`(?i) (1080p) `)
 var re720p = regexp.MustCompile(`(?i) (720p) `)
-
-type Video struct {
-	resolution string
-}
 
 func is2160p(name string) bool {
 	return find(name, *re2160p) != ""
@@ -26,7 +49,7 @@ func is720p(name string) bool {
 	return find(name, *re720p) != ""
 }
 
-func getResolution(name string) string {
+func getVideoResolution(name string) string {
 	var resolution = ""
 
 	if is2160p(name) {
@@ -40,6 +63,22 @@ func getResolution(name string) string {
 	return resolution
 }
 
+// Video Codec
+var re265 = regexp.MustCompile(`(?i) (HEVC|x265|H 265) `)
+var re264 = regexp.MustCompile(`(?i) (x264|H 264) `)
+
+func getVideoCodec(name string) string {
+	var codec = ""
+
+	if has(name, *re265) {
+		codec = "265"
+	} else if has(name, *re264) {
+		codec = "264"
+	}
+
+	return codec
+}
+
 func IsShow(name string) bool {
 	return reSeasonEpisode.FindString(name) != ""
 }
@@ -48,24 +87,11 @@ func Season(name string) string {
 	return find(name, *reSeasonEpisode)
 }
 
-func find(text string, re regexp.Regexp) string {
-	var match = ""
-	var matches = re.FindStringSubmatch(text)
+// Video
 
-	if len(matches) > 1 {
-		match = matches[0]
-	}
-
-	return match
-}
-
-func sanitize(name string) string {
-	var replacer = strings.NewReplacer(
-		".", " ",
-		"-", " ",
-	)
-
-	return replacer.Replace(name)
+type Video struct {
+	videoResolution string
+	videoCodec      string
 }
 
 func NewVideo(name string) Video {
@@ -73,7 +99,8 @@ func NewVideo(name string) Video {
 
 	var sanitized = sanitize(name)
 
-	v.resolution = getResolution(sanitized)
+	v.videoResolution = getVideoResolution(sanitized)
+	v.videoCodec = getVideoCodec(sanitized)
 
 	return v
 }
