@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"regexp"
 )
 
@@ -91,7 +90,7 @@ func getAudioChannels(name string) string {
 }
 
 // audio codec
-
+var reAudioDTSHD = regexp.MustCompile(`(?i) (DTS HD) `)
 var reAudioDDP = regexp.MustCompile(`(?i) (DDP|DDP5) `)
 var reAudioDD = regexp.MustCompile(`(?i) (DD) `)
 var reAudioAAC = regexp.MustCompile(`(?i) (AAC) `)
@@ -99,7 +98,9 @@ var reAudioAAC = regexp.MustCompile(`(?i) (AAC) `)
 func getAudioCodec(name string) string {
 	var codec = ""
 
-	if has(name, *reAudioDDP) {
+	if has(name, *reAudioDTSHD) {
+		codec = "DTS-HD"
+	} else if has(name, *reAudioDDP) {
 		codec = "DDP"
 	} else if has(name, *reAudioDD) {
 		codec = "DD"
@@ -138,31 +139,29 @@ func getTitle(name string) string {
 
 // Video
 type Video struct {
+	title           string
+	year            string
+	season          string
+	episode         string
 	videoResolution string
 	videoCodec      string
 	audioChannels   string
 	audioCodec      string
-	season          string
-	episode         string
-	year            string
-	title           string
 }
 
 func NewVideo(name string) Video {
-	var v = Video{}
-
 	var sanitized = sanitize(name)
 
-	fmt.Println(sanitized)
-
-	v.videoResolution = getVideoResolution(sanitized)
-	v.videoCodec = getVideoCodec(sanitized)
-	v.audioChannels = getAudioChannels(sanitized)
-	v.audioCodec = getAudioCodec(sanitized)
-	v.season = getSeason(sanitized)
-	v.episode = getEpisode(sanitized)
-	v.year = getYear(sanitized)
-	v.title = getTitle(sanitized)
+	var v = Video{
+		title:           getTitle(sanitized),
+		year:            getYear(sanitized),
+		season:          getSeason(sanitized),
+		episode:         getEpisode(sanitized),
+		videoResolution: getVideoResolution(sanitized),
+		videoCodec:      getVideoCodec(sanitized),
+		audioChannels:   getAudioChannels(sanitized),
+		audioCodec:      getAudioCodec(sanitized),
+	}
 
 	return v
 }
