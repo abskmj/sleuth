@@ -139,6 +139,34 @@ var tests = []test{
 			audioCodec:      "DDP",
 		},
 	},
+	{
+		"Oblivion.2013.2160p.UHD.BluRay.HDR.x265.[Hindi DDP 5.1 + English TrueHD 7.1].ESubs-(ARRoW) CtrlHD.mkv",
+		Video{
+			title:           "Oblivion",
+			year:            "2013",
+			season:          "",
+			episode:         "",
+			videoResolution: "2160",
+			videoCodec:      "265",
+			videoQuality:    "HDR",
+			audioChannels:   "7.1",
+			audioCodec:      "TrueHD",
+		},
+	},
+	{
+		"Star.Trek.Strange.New.Worlds.S02E03.Tomorrow.and.Tomorrow.and.Tomorrow.2160p.PMTP.WEB-DL.DoVi.HEVC.[Hindi DDP 2.0 + English DDP 5.1].ESubs-(ArroW) NTb.mkv",
+		Video{
+			title:           "Star Trek Strange New Worlds",
+			year:            "",
+			season:          "02",
+			episode:         "03",
+			videoResolution: "2160",
+			videoCodec:      "265",
+			videoQuality:    "DV",
+			audioChannels:   "5.1",
+			audioCodec:      "DDP",
+		},
+	},
 }
 
 func TestVideo(t *testing.T) {

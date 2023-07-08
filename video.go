@@ -75,7 +75,7 @@ func getVideoCodec(name string) string {
 }
 
 // video quality
-var reDV = regexp.MustCompile(`(?i) (DV) `)
+var reDV = regexp.MustCompile(`(?i) (DV|DoVi) `)
 var reHDR = regexp.MustCompile(`(?i) (HDR) `)
 
 func getVideoQuality(name string) string {
@@ -92,13 +92,16 @@ func getVideoQuality(name string) string {
 }
 
 // audio channels
+var re71Channels = regexp.MustCompile(`(?i) (7 1|DDP7 1) `)
 var re51Channels = regexp.MustCompile(`(?i) (5 1|DDP5 1) `)
 var re20Channels = regexp.MustCompile(`(?i) (2 0) `)
 
 func getAudioChannels(name string) string {
 	var channels = ""
 
-	if has(name, *re51Channels) {
+	if has(name, *re71Channels) {
+		channels = "7.1"
+	} else if has(name, *re51Channels) {
 		channels = "5.1"
 	} else if has(name, *re20Channels) {
 		channels = "2.0"
@@ -109,6 +112,7 @@ func getAudioChannels(name string) string {
 
 // audio codec
 var reAudioDTSHD = regexp.MustCompile(`(?i) (DTS HD) `)
+var reAudioTrueHD = regexp.MustCompile(`(?i) (TrueHD) `)
 var reAudioDDP = regexp.MustCompile(`(?i) (DDP|DDP5) `)
 var reAudioDD = regexp.MustCompile(`(?i) (DD) `)
 var reAudioAAC = regexp.MustCompile(`(?i) (AAC) `)
@@ -118,6 +122,8 @@ func getAudioCodec(name string) string {
 
 	if has(name, *reAudioDTSHD) {
 		codec = "DTS-HD"
+	} else if has(name, *reAudioTrueHD) {
+		codec = "TrueHD"
 	} else if has(name, *reAudioDDP) {
 		codec = "DDP"
 	} else if has(name, *reAudioDD) {
