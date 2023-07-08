@@ -11,31 +11,31 @@ type test struct {
 var tests = []test{
 	{
 		"Secret.Invasion.S01E03.Betrayed.2160p.WEB-DL.DUAL.DDP5.1.Atmos.H.265-HDRMoviezZ.mkv",
-		Video{"2160", "265", "5.1", "DDP", "01", "03", ""},
+		Video{"2160", "265", "5.1", "DDP", "01", "03", "", "Secret Invasion"},
 	},
 	{
 		"Ammonite (2020) 720p 10bit BluRay x265 HEVC [ Org NF Hindi HE-AAC 5.1 ~ 192Kbps + English AAC 5.1 ] ESub ~ TheAvi ~ PSA.mkv",
-		Video{"720", "265", "5.1", "AAC", "", "", "2020"},
+		Video{"720", "265", "5.1", "AAC", "", "", "2020", "Ammonite"},
 	},
 	{
 		"Ammonite (2020) 1080p 10bit BluRay x265 HEVC [ Org NF Hindi DDP 5.1 ~ 640Kbps + English AAC 5.1 ] ESub ~ TheAvi ~ PSA.mkv",
-		Video{"1080", "265", "5.1", "DDP", "", "", "2020"},
+		Video{"1080", "265", "5.1", "DDP", "", "", "2020", "Ammonite"},
 	},
 	{
 		"Mosagallu (2021) UNCUT 1080p AMZN WEB-DL x264 [Org YT Hindi AAC 5.1 ~384Kbps + Telugu DDP 5.1] ESub ~ BunnyJMB.mkv",
-		Video{"1080", "264", "5.1", "DDP", "", "", "2021"},
+		Video{"1080", "264", "5.1", "DDP", "", "", "2021", "Mosagallu"},
 	},
 	{
 		"Raavrambha.2023.1080p.AMZN.WEB-DL.DD+5.1.H.264-R3NGOKU.mkv",
-		Video{"1080", "264", "5.1", "DD", "", "", "2023"},
+		Video{"1080", "264", "5.1", "DD", "", "", "2023", "Raavrambha"},
 	},
 	{
 		"The.Out-Laws.2023.720p.NF.WEB-DL.AAC.2.0.H.264 -VijayRaj.mkv",
-		Video{"720", "264", "2.0", "AAC", "", "", "2023"},
+		Video{"720", "264", "2.0", "AAC", "", "", "2023", "The Out Laws"},
 	},
 	{
 		"Invincible.S01E02.1080p.AMZN.WEB-DL.DDP.5.1.Multi.H.264-Vijayraj.mkv",
-		Video{"1080", "264", "5.1", "DDP", "01", "02", ""},
+		Video{"1080", "264", "5.1", "DDP", "01", "02", "", "Invincible"},
 	},
 }
 

@@ -129,6 +129,13 @@ func getYear(name string) string {
 	return find(name, *reYear)
 }
 
+// title
+var reTitle = regexp.MustCompile(`(?i)(.+?) ((19|20)[0-9]{2}|s[0-9]{1,2}e[0-9]{1,2}) `)
+
+func getTitle(name string) string {
+	return find(name, *reTitle)
+}
+
 // Video
 type Video struct {
 	videoResolution string
@@ -138,6 +145,7 @@ type Video struct {
 	season          string
 	episode         string
 	year            string
+	title           string
 }
 
 func NewVideo(name string) Video {
@@ -154,6 +162,7 @@ func NewVideo(name string) Video {
 	v.season = getSeason(sanitized)
 	v.episode = getEpisode(sanitized)
 	v.year = getYear(sanitized)
+	v.title = getTitle(sanitized)
 
 	return v
 }
