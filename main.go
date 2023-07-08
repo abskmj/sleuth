@@ -3,8 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-
-	"github.com/abskmj/sleuth/lib"
 )
 
 func main() {
@@ -12,11 +10,13 @@ func main() {
 	name := flag.String("name", "Secret.Invasion.S01E03.Betrayed.2160p.WEB-DL.DUAL.DDP5.1.Atmos.H.265-HDRMoviezZ.mkv", "The name to greet")
 	flag.Parse()
 
-	video := lib.NewVideo(*name)
+	video := NewVideo(*name)
 
 	fmt.Println("Video:", video)
-	fmt.Println("Resolution:", video.Resolution())
-	fmt.Println("isShow:", video.IsShow())
+	fmt.Println("Resolution:", video.resolution)
+	// fmt.Println("isShow:", video.IsShow())
+	// fmt.Println("Season:", video.Season())
+	// fmt.Println("2160p:", video.Is2160p())
 
 	// Print the greeting message
 	// message := fmt.Sprintf("Hello, %s!", *name)
