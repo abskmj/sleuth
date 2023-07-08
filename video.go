@@ -5,15 +5,13 @@ import (
 	"regexp"
 )
 
-var reSeasonEpisode = regexp.MustCompile(`(?i)s([0-9]{1,2})e([0-9]{1,2})`)
-
 // utilities
 func find(text string, re regexp.Regexp) string {
 	var match = ""
 	var matches = re.FindStringSubmatch(text)
 
 	if len(matches) > 1 {
-		match = matches[0]
+		match = matches[1]
 	}
 
 	return match
@@ -76,14 +74,6 @@ func getVideoCodec(name string) string {
 	return codec
 }
 
-func IsShow(name string) bool {
-	return reSeasonEpisode.FindString(name) != ""
-}
-
-func Season(name string) string {
-	return find(name, *reSeasonEpisode)
-}
-
 // audio channels
 var re51Channels = regexp.MustCompile(`(?i) (5 1|DDP5 1) `)
 var re20Channels = regexp.MustCompile(`(?i) (2 0) `)
@@ -120,13 +110,34 @@ func getAudioCodec(name string) string {
 	return codec
 }
 
-// Video
+// episode
+var reSeason = regexp.MustCompile(`(?i) s([0-9]{1,2})e[0-9]{1,2} `)
+var reEpisode = regexp.MustCompile(`(?i) s[0-9]{1,2}e([0-9]{1,2}) `)
 
+func getSeason(name string) string {
+	return find(name, *reSeason)
+}
+
+func getEpisode(name string) string {
+	return find(name, *reEpisode)
+}
+
+// year
+var reYear = regexp.MustCompile(`(?i) ((19|20)[0-9]{2}) `)
+
+func getYear(name string) string {
+	return find(name, *reYear)
+}
+
+// Video
 type Video struct {
 	videoResolution string
 	videoCodec      string
 	audioChannels   string
 	audioCodec      string
+	season          string
+	episode         string
+	year            string
 }
 
 func NewVideo(name string) Video {
@@ -140,6 +151,9 @@ func NewVideo(name string) Video {
 	v.videoCodec = getVideoCodec(sanitized)
 	v.audioChannels = getAudioChannels(sanitized)
 	v.audioCodec = getAudioCodec(sanitized)
+	v.season = getSeason(sanitized)
+	v.episode = getEpisode(sanitized)
+	v.year = getYear(sanitized)
 
 	return v
 }
