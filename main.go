@@ -6,19 +6,21 @@ import (
 )
 
 func main() {
-	// Define a command-line flag named "name" with a default value
-	name := flag.String("name", "Secret.Invasion.S01E03.Betrayed.2160p.WEB-DL.DUAL.DDP5.1.Atmos.H.265-HDRMoviezZ.mkv", "The name to greet")
+	name := flag.String("name", "", "name of the file")
 	flag.Parse()
 
-	video := NewVideo(*name)
+	fmt.Println("Name:", *name)
 
-	fmt.Println("Video:", video)
-	fmt.Println("Resolution:", video.videoResolution)
-	// fmt.Println("isShow:", video.IsShow())
-	// fmt.Println("Season:", video.Season())
-	// fmt.Println("2160p:", video.Is2160p())
+	var video = NewVideo(*name)
 
-	// Print the greeting message
-	// message := fmt.Sprintf("Hello, %s!", *name)
-	// fmt.Println(message)
+	fmt.Println("Title:", video.title)
+	fmt.Println("Category:", video.category)
+	fmt.Println("Year:", video.year)
+	fmt.Println("Season:", video.season)
+	fmt.Println("Episode:", video.episode)
+	fmt.Println("Video Resolution:", video.videoResolution)
+	fmt.Println("Video Codec:", video.videoCodec)
+	fmt.Println("Video Quality:", video.videoQuality)
+	fmt.Println("Audio Channels:", video.audioChannels)
+	fmt.Println("Audio Codec:", video.audioCodec)
 }
