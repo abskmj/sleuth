@@ -161,9 +161,26 @@ func getTitle(name string) string {
 	return find(name, *reTitle)
 }
 
+// categoty
+
+func getCategory(name string) string {
+	var category = ""
+
+	if has(name, *reTitle) {
+		if has(name, *reEpisode) {
+			category = "episode"
+		} else if has(name, *reYear) {
+			category = "movie"
+		}
+	}
+
+	return category
+}
+
 // Video
 type Video struct {
 	title           string
+	category        string
 	year            string
 	season          string
 	episode         string
@@ -179,6 +196,7 @@ func NewVideo(name string) Video {
 
 	var v = Video{
 		title:           getTitle(sanitized),
+		category:        getCategory(sanitized),
 		year:            getYear(sanitized),
 		season:          getSeason(sanitized),
 		episode:         getEpisode(sanitized),
